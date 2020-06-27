@@ -49,7 +49,7 @@ namespace MongoActor.Handlers
                 sqlContext.SaveChanges();
             }
 
-            // throw new Exception("Mongo Exception");
+            throw new Exception("Mongo Exception");
 
 
             var transactionEnded = new DistributedTransactionEnded()

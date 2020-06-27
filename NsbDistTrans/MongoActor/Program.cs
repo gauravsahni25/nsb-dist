@@ -15,8 +15,21 @@ namespace MongoActor
             const string endpointName = "MongoActor";
             Console.Title = endpointName;
 
+            var endpointConfiguration = new EndpointConfiguration(endpointName);
+            var recoverability = endpointConfiguration.Recoverability();
+            recoverability.Immediate(
+                customizations: immediate =>
+                {
+                    immediate.NumberOfRetries(0);
+                });
+            recoverability.Delayed(
+                customizations: delayed =>
+                {
+                    delayed.NumberOfRetries(2);
+                });
+
             var endpointInstance = await Endpoint
-                .Start(new EndpointConfiguration(endpointName))
+                .Start(endpointConfiguration)
                 .ConfigureAwait(false);
 
             Console.WriteLine("Press Enter to exit.");
