@@ -2,6 +2,13 @@
 {
     using MongoDB.Bson;
     using MongoDB.Bson.Serialization.Attributes;
+
+    public class ToDoModel
+    {
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+    }
     public class Todo
     {
         [BsonId]

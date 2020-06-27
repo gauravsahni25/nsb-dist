@@ -6,10 +6,10 @@ using TodoApp.Models;
 
 namespace MongoActor.DataAccess
 {
-    public class TodoRepository : ITodoRepository
+    public class TodoMongoRepository : ITodoRepository
     {
         private readonly ITodoContext _context;
-        public TodoRepository(ITodoContext context)
+        public TodoMongoRepository(ITodoContext context)
         {
             _context = context;
         }

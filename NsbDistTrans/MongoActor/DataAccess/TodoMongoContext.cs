@@ -7,10 +7,10 @@ namespace MongoActor.DataAccess
     {
         IMongoCollection<Todo> Todos { get; }
     }
-    public class TodoContext : ITodoContext
+    public class TodoMongoContext : ITodoContext
     {
         private readonly IMongoDatabase _db;
-        public TodoContext(MongoDbConfig config)
+        public TodoMongoContext(MongoDbConfig config)
         {
             var client = new MongoClient(config.ConnectionString);
             _db = client.GetDatabase(config.Database);

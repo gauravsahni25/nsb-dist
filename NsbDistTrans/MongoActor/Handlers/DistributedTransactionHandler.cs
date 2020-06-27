@@ -24,16 +24,31 @@ namespace MongoActor.Handlers
             log.Info($"DistributedTransaction, Id = {message.OrderId} - Started");
 
             // Mongo
-            var todoContext = new TodoContext(new MongoDbConfig());
-            var _repo = new TodoRepository(todoContext);
-            var id = await _repo.GetNextId();
+            var _todoMongoContext = new TodoMongoContext(new MongoDbConfig());
+            var _todoMongoRepository = new TodoMongoRepository(_todoMongoContext);
+            var id = await _todoMongoRepository.GetNextId();
             Todo todo = new Todo()
             {
                 Id = id,
                 Content = $"Mongo Actor Document with Id: {id}",
                 Title = $"MongoActor : {id}"
             };
-            await _repo.Create(todo);
+            await _todoMongoRepository.Create(todo);
+
+            // Sql
+            using (var sqlContext = new ToDoSqlContext())
+            {
+
+                ToDoModel todoModel = new ToDoModel()
+                {
+                    Content = $"Mongo Actor Document with Id: {id}",
+                    Title = $"MongoActor : {id}"
+                };
+
+                sqlContext.ToDos.Add(todoModel);
+                sqlContext.SaveChanges();
+            }
+
             // throw new Exception("Mongo Exception");
 
 
@@ -49,8 +64,8 @@ namespace MongoActor.Handlers
 
 //private static async Task RunLoop(IEndpointInstance endpointInstance)
 //{
-//    var todoContext = new TodoContext(new MongoDbConfig());
-//    var _repo = new TodoRepository(todoContext);
+//    var todoContext = new TodoMongoContext(new MongoDbConfig());
+//    var _repo = new TodoMongoRepository(todoContext);
 
 //    while (true)
 //    {
