@@ -11,4 +11,13 @@ namespace Messages.Events
     {
         public string OrderId { get; set; }
     }
+
+    public class DistributedTransactionStarted : IEvent
+    {
+        public string OrderId { get; set; }
+    }
+    public class DistributedTransactionEnded : IEvent
+    {
+        public string OrderId { get; set; }
+    }
 }

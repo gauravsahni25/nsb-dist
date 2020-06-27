@@ -29,16 +29,8 @@ namespace Sales
         private static EndpointConfiguration ConfigureEndpoint(string endpointName)
         {
             var endpointConfiguration = new EndpointConfiguration(endpointName);
-            //ConfigureSerialization(endpointConfiguration);
-            //ConfigureTransport(endpointConfiguration);
             ConfigurePersistence(endpointConfiguration);
             return endpointConfiguration;
-        }
-
-        private static void ConfigureSerialization(EndpointConfiguration endpointConfiguration)
-        {
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
-            //endpointConfiguration.AddDeserializer<NewtonsoftSerializer>();
         }
 
         private static void ConfigurePersistence(EndpointConfiguration endpointConfiguration)
@@ -53,16 +45,6 @@ namespace Sales
                 });
             var subscriptions = persistence.SubscriptionSettings();
             subscriptions.CacheFor(TimeSpan.FromMinutes(1));
-        }
-
-        private static void ConfigureTransport(EndpointConfiguration endpointConfiguration)
-        {
-            //var transport = endpointConfiguration.UseTransport<LearningTransport>();
-            var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
-            endpointConfiguration.EnableInstallers();
-            transport.ConnectionString("host=localhost;username=guest;password=guest");
-            transport.UseConventionalRoutingTopology();
-            endpointConfiguration.AuditProcessedMessagesTo("personalQueueForAudit");
         }
     }
 }
