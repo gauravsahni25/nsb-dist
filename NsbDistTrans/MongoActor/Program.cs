@@ -32,17 +32,8 @@ namespace MongoActor
         private static EndpointConfiguration ConfigureEndpoint(string endpointName)
         {
             var endpointConfiguration = new EndpointConfiguration(endpointName);
-            var recoverability = endpointConfiguration.Recoverability();
             endpointConfiguration.EnableOutbox();
             ConfigurePersistence(endpointConfiguration);
-
-            // debug settings
-            endpointConfiguration.LimitMessageProcessingConcurrencyTo(1);
-            recoverability.Immediate(
-                customizations: immediate => { immediate.NumberOfRetries(0); });
-            recoverability.Delayed(
-                customizations: delayed => { delayed.NumberOfRetries(2); });
-
 
             return endpointConfiguration;
         }

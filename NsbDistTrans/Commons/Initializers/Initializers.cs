@@ -28,4 +28,18 @@ namespace Commons.Initializers
         }
     }
 
+    public class DebugSettingsInitializer : INeedInitialization
+    {
+        public void Customize(EndpointConfiguration endpointConfiguration)
+        {
+            // debug settings
+            endpointConfiguration.LimitMessageProcessingConcurrencyTo(1);
+            var recoverability = endpointConfiguration.Recoverability();
+            recoverability.Immediate(
+                customizations: immediate => { immediate.NumberOfRetries(0); });
+            recoverability.Delayed(
+                customizations: delayed => { delayed.NumberOfRetries(0); });
+        }
+    }
+
 }
