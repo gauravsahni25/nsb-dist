@@ -20,4 +20,9 @@ namespace Messages.Events
     {
         public string OrderId { get; set; }
     }
+
+    #warning Badly Named Event.  
+    public class DuplicatesToPrevent : IEvent
+    {
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Messages.Commands;
+using Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
 
@@ -32,10 +34,11 @@ namespace ClientUI
         private static async Task RunLoop(IEndpointInstance endpointInstance)
         {
             var lastOrder = string.Empty;
+            var duplicateId = Guid.NewGuid().ToString();
 
             while (true)
             {
-                log.Info("Press 'P' to place an order, 'C' to cancel last order, or 'Q' to quit.");
+                log.Info("Press 'P' to place an order, 'C' to cancel last order, 'W' to see deduplication, or 'Q' to quit.");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -66,6 +69,17 @@ namespace ClientUI
                         log.Info($"Sent a correlated message to Cancel: {cancelCommand.OrderId}");
                         break;
 
+                    case ConsoleKey.W:
+                        // Instantiate the command
+                        var dupeEvent = new DuplicatesToPrevent();
+
+                        // Send the command
+                        
+
+                        await SendDuplicates(endpointInstance, dupeEvent, 5);
+
+                        break;
+
                     case ConsoleKey.Q:
                         return;
 
@@ -74,6 +88,22 @@ namespace ClientUI
                         break;
                 }
             }
+        }
+
+        public static Task SendDuplicates<TMessage>(IMessageSession context, TMessage message, int totalCount)
+        {
+            var duplicatedMessageId = Guid.NewGuid().ToString();
+
+            var tasks = Enumerable.Range(0, totalCount)
+                .Select(i =>
+                {
+                    var options = new PublishOptions();
+                    options.SetMessageId(duplicatedMessageId);
+                    log.Info($"Sending Dupe Event with MessageId= {duplicatedMessageId}");
+                    return context.Publish(message, options);
+                });
+
+            return Task.WhenAll(tasks);
         }
     }
 }
