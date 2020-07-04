@@ -22,7 +22,7 @@ namespace MongoActor.Handlers
             await context.Publish(transactionStarted);
             log.Info($"DistributedTransaction, Id = {context.MessageId} - Started");
             
-            using (TransactionScope scope = new TransactionScope())
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 log.Info($"Received StorageOps");
 
@@ -43,14 +43,14 @@ namespace MongoActor.Handlers
                 // Mongo
                 var _todoMongoContext = new TodoMongoContext(new MongoDbConfig());
                 var _todoMongoRepository = new TodoMongoRepository(_todoMongoContext);
-                var id = await _todoMongoRepository.GetNextId();
+                var id = await _todoMongoRepository.GetNextId(); // Bad Spot-1
                 Todo todo = new Todo()
                 {
                     Id = id,
                     Content = $"Mongo Actor Document with Id: {id}",
                     Title = $"MongoActor : {id}"
                 };
-                await _todoMongoRepository.Create(todo);
+                await _todoMongoRepository.Create(todo); // Bad Spot-2
 
                 // sql2
                 using (var sqlContext = new ToDoSqlContext2())
