@@ -7,7 +7,7 @@ using NServiceBus.Logging;
 using SqlAccess.DataAccess;
 using SqlAccess.Models;
 
-namespace MongoActor.Handlers
+namespace Shipping
 {
     public class DistributedTransactionHandler : IHandleMessages<StorageOps>
     {
@@ -15,18 +15,17 @@ namespace MongoActor.Handlers
 
         public async Task Handle(StorageOps message, IMessageHandlerContext context)
         {
-            var transactionStarted = new DistributedTransactionStarted()
-            {
-                OrderId = context.MessageId
-            };
-            await context.Publish(transactionStarted);
-            log.Info($"DistributedTransaction, Id = {context.MessageId} - Started");
-            
             using (TransactionScope scope = new TransactionScope())
             {
                 log.Info($"Received StorageOps");
 
-                // Sql1
+                var transactionStarted = new DistributedTransactionStarted()
+                {
+                    OrderId = context.MessageId
+                };
+                await context.Publish(transactionStarted);
+                log.Info($"DistributedTransaction, Id = {context.MessageId} - Started");
+
                 using (var sqlContext = new ToDoSqlContext())
                 {
 
@@ -40,19 +39,6 @@ namespace MongoActor.Handlers
                     sqlContext.SaveChanges();
                 }
 
-                // Mongo
-                var _todoMongoContext = new TodoMongoContext(new MongoDbConfig());
-                var _todoMongoRepository = new TodoMongoRepository(_todoMongoContext);
-                var id = await _todoMongoRepository.GetNextId();
-                Todo todo = new Todo()
-                {
-                    Id = id,
-                    Content = $"Mongo Actor Document with Id: {id}",
-                    Title = $"MongoActor : {id}"
-                };
-                await _todoMongoRepository.Create(todo);
-
-                // sql2
                 using (var sqlContext = new ToDoSqlContext2())
                 {
 
@@ -66,17 +52,19 @@ namespace MongoActor.Handlers
                     sqlContext.SaveChanges();
                 }
 
+
                 throw new Exception("Mongo Exception");
+
 
                 var transactionEnded = new DistributedTransactionEnded()
                 {
                     OrderId = context.MessageId,
                 };
                 await context.Publish(transactionEnded);
-                log.Info($"DistributedTransaction, Id = {context.MessageId} - Ended"); 
+                log.Info($"DistributedTransaction, Id = {context.MessageId} - Ended");
                 scope.Complete();
             }
-        }
+    }
     }
 }
 

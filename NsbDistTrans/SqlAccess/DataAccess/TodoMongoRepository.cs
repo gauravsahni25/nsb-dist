@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using TodoApp.Models;
+using SqlAccess.Models;
 
-namespace MongoActor.DataAccess
+namespace SqlAccess.DataAccess
 {
     public class TodoMongoRepository : ITodoRepository
     {

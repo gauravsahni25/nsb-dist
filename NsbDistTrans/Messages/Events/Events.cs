@@ -25,4 +25,7 @@ namespace Messages.Events
     public class DuplicatesToPrevent : IEvent
     {
     }
+
+    public class StorageOps : IEvent
+    { }
 }

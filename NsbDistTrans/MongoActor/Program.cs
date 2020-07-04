@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using MongoActor.DataAccess;
 using NServiceBus;
 using NServiceBus.Logging;
-using TodoApp.Models;
 
 namespace MongoActor
 {

@@ -1,4 +1,4 @@
-﻿namespace MongoActor.DataAccess
+﻿namespace SqlAccess.DataAccess
 {
     public class MongoDbConfig
     {

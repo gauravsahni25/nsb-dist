@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MongoActor.DataAccess;
+using SqlAccess.DataAccess;
 
-namespace MongoActor.Migrations
+namespace SqlAccess.Migrations.ToDoSqlContext2Migrations
 {
-    [DbContext(typeof(ToDoSqlContext))]
-    [Migration("20200627222810_CreateToDos")]
-    partial class CreateToDos
+    [DbContext(typeof(ToDoSqlContext2))]
+    [Migration("20200704001427_CreateToDos2")]
+    partial class CreateToDos2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace MongoActor.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TodoApp.Models.ToDoModel", b =>
+            modelBuilder.Entity("SqlAccess.Models.ToDoModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

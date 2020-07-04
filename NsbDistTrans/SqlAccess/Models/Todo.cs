@@ -1,8 +1,8 @@
-﻿namespace TodoApp.Models
-{
-    using MongoDB.Bson;
-    using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
+namespace SqlAccess.Models
+{
     public class ToDoModel
     {
         public long Id { get; set; }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MongoActor.Migrations
+namespace SqlAccess.Migrations.ToDoSqlContext2Migrations
 {
-    public partial class CreateToDos : Migration
+    public partial class CreateToDos2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

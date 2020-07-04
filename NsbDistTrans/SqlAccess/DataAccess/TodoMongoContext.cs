@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
-using TodoApp.Models;
+using SqlAccess.Models;
 
-namespace MongoActor.DataAccess
+namespace SqlAccess.DataAccess
 {
     public interface ITodoContext
     {

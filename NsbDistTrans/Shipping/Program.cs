@@ -42,8 +42,8 @@ namespace Shipping
                 {
                     return new SqlConnection(connection);
                 });
-            var subscriptions = persistence.SubscriptionSettings();
-            subscriptions.CacheFor(TimeSpan.FromMinutes(1));
+            //var subscriptions = persistence.SubscriptionSettings();
+            //subscriptions.CacheFor(TimeSpan.FromMinutes(1));
         }
     }
 }
