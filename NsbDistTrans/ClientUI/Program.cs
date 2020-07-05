@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Messages.Commands;
 using Messages.Events;
+using Messages.Messages;
 using NServiceBus;
 using NServiceBus.Logging;
 
@@ -38,7 +39,7 @@ namespace ClientUI
 
             while (true)
             {
-                log.Info("\nPress 'P' to place an order \n'C' to cancel last order \n'W' to see de-duplication \n'S' for StorageOps \n'X'No Handler Command \n'Q' to quit.");
+                log.Info("\nPress 'P' to place an order \n'C' to cancel last order \n'W' to see de-duplication \n'S' for StorageOps \n'X'No Handler Command \n'R' forRequest Response \n'Q' to quit.");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -80,7 +81,12 @@ namespace ClientUI
                         log.Info($"Sending StorageOps Command");
                         await endpointInstance.Publish(new StorageOps());
                         break;
-                    
+
+                    case ConsoleKey.R:
+                        log.Info($"Request Response Demo");
+                        await DemoRequestReply(endpointInstance);
+                        break;
+
                     case ConsoleKey.X:
                         log.Info($"Sending Handler-Less Event and Command");
                         // Instantiate the command
@@ -96,6 +102,49 @@ namespace ClientUI
                         break;
                 }
             }
+        }
+
+        private static async Task DemoRequestReply(IEndpointInstance endpointInstance)
+        {
+            log.Info("\nPress 'C' to demo Command \n'E' to demo Event \n'M' to send Message");
+            var key = Console.ReadKey();
+            Console.WriteLine();
+            switch (key.Key)
+            {
+                case ConsoleKey.C:
+                    // Instantiate the command
+                    var command = new RequestCommand()
+                    {
+                        DataId = 1, Message = "Command"
+                    };
+                    log.Info($"Sending Request Command with Id: {command.DataId}");
+                    await endpointInstance.Send(command);
+                    break;
+                case ConsoleKey.E:
+                    // Instantiate the command
+                    var eventMessage = new RequestEvent()
+                    {
+                        DataId = 2,
+                        Message = "Event"
+                    };
+                    log.Info($"Sending Request Event with Id: {eventMessage.DataId}");
+                    await endpointInstance.Publish(eventMessage);
+                    break;
+                case ConsoleKey.M:
+                    // Instantiate the message
+                    var request = new RequestMessage()
+                    {
+                        DataId = 2,
+                        Message = "Message"
+                    };
+                    log.Info($"Sending Request Event with Id: {request.Message}");
+                    await endpointInstance.Send(request);
+                    break;
+                default:
+                    log.Info("Exiting...");
+                    return;
+            }
+            
         }
 
         public static Task SendDuplicates<TMessage>(IMessageSession context, TMessage message, int totalCount)

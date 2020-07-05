@@ -21,4 +21,17 @@ namespace Messages.Commands
     {
         public string OrderId { get; set; }
     }
+
+# warning Bad
+    public class RequestCommand : ICommand
+    {
+        public int DataId { get; set; }
+        public string Message { get; set; }
+    }
+#warning More Bad
+    public class ResponseCommand : ICommand
+    {
+        public int DataId { get; set; }
+        public string Message { get; set; }
+    }
 }

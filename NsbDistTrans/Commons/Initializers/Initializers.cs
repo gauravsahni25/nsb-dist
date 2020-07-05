@@ -1,4 +1,5 @@
 ﻿using Messages.Commands;
+using Messages.Messages;
 using NServiceBus;
 
 namespace Commons.Initializers
@@ -17,7 +18,10 @@ namespace Commons.Initializers
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(PlaceOrder), "Sales");
             routing.RouteToEndpoint(typeof(CancelOrder), "Sales");
-            // routing.DoNotEnforceBestPractices();
+            routing.RouteToEndpoint(typeof(RequestCommand), "MongoActor");
+            routing.RouteToEndpoint(typeof(RequestMessage), "MongoActor");
+            routing.RouteToEndpoint(typeof(ResponseCommand), "ClientUI");
+            // routing.DoNotEnforceBestPractices(); - To demo Request Reply
         }
     }
 

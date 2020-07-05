@@ -31,4 +31,18 @@ namespace Messages.Events
 
     public class HandlerLessEvent : IEvent
     { }
+
+#warning  Really Bad stuff over here!!!!
+    public class RequestEvent : IEvent
+    {
+        public int DataId { get; set; }
+        public string Message { get; set; }
+    }
+#warning Wrong
+    public class ResponseEvent : IEvent
+    {
+        public int DataId { get; set; }
+        public string Message { get; set; }
+    }
+
 }
