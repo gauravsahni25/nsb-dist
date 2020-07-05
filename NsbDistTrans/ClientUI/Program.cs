@@ -38,7 +38,7 @@ namespace ClientUI
 
             while (true)
             {
-                log.Info("Press 'P' to place an order, 'C' to cancel last order, 'W' to see deduplication, 'S' for StorageOps, or 'Q' to quit.");
+                log.Info("\nPress 'P' to place an order \n'C' to cancel last order \n'W' to see de-duplication \n'S' for StorageOps \n'X'No Handler Command \n'Q' to quit.");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -77,7 +77,15 @@ namespace ClientUI
 
                     case ConsoleKey.S:
                         // Instantiate the command
+                        log.Info($"Sending StorageOps Command");
                         await endpointInstance.Publish(new StorageOps());
+                        break;
+                    
+                    case ConsoleKey.X:
+                        log.Info($"Sending Handler-Less Event and Command");
+                        // Instantiate the command
+                        // await endpointInstance.Publish(new HandlerLessEvent());
+                        await endpointInstance.Publish(new HandlerLessCommand());
                         break;
 
                     case ConsoleKey.Q:

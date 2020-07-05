@@ -16,4 +16,9 @@ namespace Messages.Commands
     {
         public string OrderId { get; set; }
     }
+    public class HandlerLessCommand
+        : ICommand
+    {
+        public string OrderId { get; set; }
+    }
 }

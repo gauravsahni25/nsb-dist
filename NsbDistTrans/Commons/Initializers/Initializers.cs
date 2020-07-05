@@ -17,6 +17,7 @@ namespace Commons.Initializers
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(PlaceOrder), "Sales");
             routing.RouteToEndpoint(typeof(CancelOrder), "Sales");
+            // routing.DoNotEnforceBestPractices();
         }
     }
 

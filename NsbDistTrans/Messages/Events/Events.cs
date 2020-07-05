@@ -28,4 +28,7 @@ namespace Messages.Events
 
     public class StorageOps : IEvent
     { }
+
+    public class HandlerLessEvent : IEvent
+    { }
 }

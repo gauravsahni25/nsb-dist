@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping", "Shipping\Shippi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoActor", "MongoActor\MongoActor.csproj", "{8343515C-6D5F-4FC5-84BD-BC8557843290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlAccess", "SqlAccess\SqlAccess.csproj", "{B717C797-23BD-40C3-8D5C-2F49543D9269}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlAccess", "SqlAccess\SqlAccess.csproj", "{B717C797-23BD-40C3-8D5C-2F49543D9269}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SagaPatterns", "SagaPatterns", "{ABB80DB4-E853-41FE-803D-6DA3B7CC74A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
