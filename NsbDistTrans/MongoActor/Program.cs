@@ -20,7 +20,7 @@ namespace MongoActor
             recoverability.Immediate(
                 customizations: immediate =>
                 {
-                    immediate.NumberOfRetries(0);
+                    immediate.NumberOfRetries(5);
                 });
             recoverability.Delayed(
                 customizations: delayed =>
