@@ -16,13 +16,19 @@ namespace Messages.Events
     {
         public string OrderId { get; set; }
     }
+
     public class DistributedTransactionEnded : IEvent
     {
         public string OrderId { get; set; }
     }
 
-    #warning Badly Named Event.  
+#warning Badly Named Event.
     public class DuplicatesToPrevent : IEvent
     {
+    }
+
+    public class BusinessEvent : IEvent
+    {
+        public string EventId { get; set; }
     }
 }

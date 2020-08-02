@@ -53,9 +53,9 @@ namespace Commons.Initializers
             var recoverability = configuration.Recoverability();
             configuration.LimitMessageProcessingConcurrencyTo(1);
             recoverability.Immediate(
-                customizations: immediate => { immediate.NumberOfRetries(0); });
+                customizations: immediate => { immediate.NumberOfRetries(5); });
             recoverability.Delayed(
-                customizations: delayed => { delayed.NumberOfRetries(2); });
+                customizations: delayed => { delayed.NumberOfRetries(0); });
 
         }
     }

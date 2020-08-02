@@ -72,12 +72,13 @@ namespace ClientUI
                     case ConsoleKey.W:
                         // Instantiate the command
                         var dupeEvent = new DuplicatesToPrevent();
-
-                        // Send the command
-                        
-
                         await SendDuplicates(endpointInstance, dupeEvent, 5);
+                        break;
 
+                    case ConsoleKey.B:
+                        // Send Business Event
+                        var bizEvent = new BusinessEvent();
+                        await SendDuplicates(endpointInstance, bizEvent, 5);
                         break;
 
                     case ConsoleKey.Q:

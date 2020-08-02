@@ -1,2 +1,2 @@
-cd .\NsbDistTrans\MongoActor\
+cd C:\Distributed\nsb-dist\NsbDistTrans\Sales
 dotnet ef database update --context ToDoSqlContext
