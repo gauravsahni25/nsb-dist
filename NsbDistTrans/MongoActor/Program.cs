@@ -32,23 +32,16 @@ namespace MongoActor
         private static EndpointConfiguration ConfigureEndpoint(string endpointName)
         {
             var endpointConfiguration = new EndpointConfiguration(endpointName);
-            var recoverability = endpointConfiguration.Recoverability();
-            endpointConfiguration.EnableOutbox();
             ConfigurePersistence(endpointConfiguration);
-
-            // debug settings
-            endpointConfiguration.LimitMessageProcessingConcurrencyTo(1);
-            recoverability.Immediate(
-                customizations: immediate => { immediate.NumberOfRetries(0); });
-            recoverability.Delayed(
-                customizations: delayed => { delayed.NumberOfRetries(2); });
-
-
             return endpointConfiguration;
         }
 
         private static void ConfigurePersistence(EndpointConfiguration endpointConfiguration)
         {
+            // Enable Outbox
+            endpointConfiguration.EnableOutbox();
+
+            // Configure Sql Server Persistence
             var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
             var connection = "Data Source=localhost;Initial Catalog=NsbDistMongo;User Id=sa;pwd=Docker@123";
             persistence.SqlDialect<SqlDialect.MsSqlServer>();

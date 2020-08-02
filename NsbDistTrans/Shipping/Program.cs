@@ -34,16 +34,7 @@ namespace Shipping
 
         private static void ConfigurePersistence(EndpointConfiguration endpointConfiguration)
         {
-            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
-            var connection = "Data Source=localhost;Initial Catalog=NsbDistMongo;User Id=sa;pwd=Docker@123";
-            persistence.SqlDialect<SqlDialect.MsSqlServer>();
-            persistence.ConnectionBuilder(
-                connectionBuilder: () =>
-                {
-                    return new SqlConnection(connection);
-                });
-            var subscriptions = persistence.SubscriptionSettings();
-            subscriptions.CacheFor(TimeSpan.FromMinutes(1));
+            endpointConfiguration.UsePersistence<MongoPersistence>();
         }
     }
 }
