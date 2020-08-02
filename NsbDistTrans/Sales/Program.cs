@@ -35,16 +35,22 @@ namespace Sales
 
         private static void ConfigurePersistence(EndpointConfiguration endpointConfiguration)
         {
-            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+            var sqlServerPersistence = endpointConfiguration.UsePersistence<SqlPersistence>();
             var connection = "Data Source=localhost;Initial Catalog=NsbDistMongo;User Id=sa;pwd=Docker@123";
-            persistence.SqlDialect<SqlDialect.MsSqlServer>();
-            persistence.ConnectionBuilder(
+            sqlServerPersistence.SqlDialect<SqlDialect.MsSqlServer>();
+            sqlServerPersistence.ConnectionBuilder(
                 connectionBuilder: () =>
                 {
                     return new SqlConnection(connection);
                 });
-            var subscriptions = persistence.SubscriptionSettings();
+            var subscriptions = sqlServerPersistence.SubscriptionSettings();
             subscriptions.CacheFor(TimeSpan.FromMinutes(1));
+
+
+            // Enable Outbox
+            var outboxSettings = endpointConfiguration.EnableOutbox();
+            outboxSettings.UsePessimisticConcurrencyControl();
+            outboxSettings.KeepDeduplicationDataFor(TimeSpan.FromDays(30));
         }
     }
 }

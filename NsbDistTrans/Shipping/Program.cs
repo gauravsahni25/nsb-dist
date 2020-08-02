@@ -34,7 +34,13 @@ namespace Shipping
 
         private static void ConfigurePersistence(EndpointConfiguration endpointConfiguration)
         {
-            endpointConfiguration.UsePersistence<MongoPersistence>();
+            var mongo = endpointConfiguration.UsePersistence<MongoPersistence>();
+
+
+            // Enable Outbox
+            endpointConfiguration.EnableOutbox();
+            mongo.TimeToKeepOutboxDeduplicationData(TimeSpan.FromDays(30));
+            // default is pessimistic locking
         }
     }
 }
