@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Shipping.MongoStuffForBusiness.Models
 {
@@ -7,7 +8,7 @@ namespace Shipping.MongoStuffForBusiness.Models
     {
         [BsonId] public ObjectId InternalId { get; protected set; }
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
     }

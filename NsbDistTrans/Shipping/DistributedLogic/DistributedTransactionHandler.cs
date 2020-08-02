@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Messages.Events;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using NServiceBus;
 using NServiceBus.Logging;
 using Shipping.MongoStuffForBusiness;
@@ -14,6 +16,7 @@ namespace Shipping.DistributedLogic
 
         public async Task Handle(BusinessEvent message, IMessageHandlerContext context)
         {
+            
             log.Info($"Received OrderPlaced, OrderId = {message.EventId} - Charging credit card...");
             
             var transactionStarted = new DistributedTransactionStarted()
@@ -24,18 +27,24 @@ namespace Shipping.DistributedLogic
             log.Info($"DistributedTransaction, Id = {message.EventId} - Started");
 
             // Mongo
-            var _todoMongoContext = new TodoMongoContext(new MongoDbConfig());
-            var _todoMongoRepository = new TodoMongoRepository(_todoMongoContext);
-            var id = await _todoMongoRepository.GetNextId();
-            Todo todo = new Todo()
+            var session = context.SynchronizedStorageSession.GetClientSession();
+            
+            var collection = session
+                .Client
+                .GetDatabase("Shipping")
+                .GetCollection<Todo>("Todos");
+
+            var id = new Guid();
+
+            var businessObject = new Todo()
             {
                 Id = id,
                 Content = $"Mongo Actor Document with Id: {id}",
                 Title = $"MongoActor : {id}"
             };
-            await _todoMongoRepository.Create(todo);
-           
-            throw new Exception("Mongo Exception");
+            await collection.InsertOneAsync(session, businessObject);
+            
+            //throw new Exception("Mongo Exception");
 
 
             var transactionEnded = new DistributedTransactionEnded()
