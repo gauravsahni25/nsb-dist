@@ -14,6 +14,7 @@ namespace Sales.DistributedLogic
 
         public async Task Handle(BusinessEvent message, IMessageHandlerContext context)
         {
+            ToDoSqlContext _sqlContext = context.DataContext();
             log.Info($"Received OrderPlaced, OrderId = {message.EventId} - Charging credit card...");
             
             var transactionStarted = new DistributedTransactionStarted()
@@ -24,19 +25,16 @@ namespace Sales.DistributedLogic
             log.Info($"DistributedTransaction, Id = {message.EventId} - Started");
 
             // Sql
-            using (var sqlContext = new ToDoSqlContext())
+            ToDoModel todoModel = new ToDoModel()
             {
-                ToDoModel todoModel = new ToDoModel()
-                {
-                    Content = $"Mongo Actor Document with Id: {message.EventId}",
-                    Title = $"MongoActor : {message.EventId}"
-                };
+                Content = $"Mongo Actor Document with Id: {message.EventId}",
+                Title = $"MongoActor : {message.EventId}"
+            };
 
-                sqlContext.ToDos.Add(todoModel);
-                sqlContext.SaveChanges();
-            }
+            _sqlContext.ToDos.Add(todoModel);
+            await _sqlContext.SaveChangesAsync();
 
-            throw new Exception("Mongo Exception");
+            //throw new Exception("Mongo Exception");
 
 
             var transactionEnded = new DistributedTransactionEnded()
