@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Sales.SqlStuffForBusiness.Migrations
 {
-    [DbContext(typeof(ToDoSqlContext))]
+    [DbContext(typeof(ToDoSqlContextCreation))]
     partial class ToDoSqlContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sales.SqlStuffForBusiness.Migrations
 {
-    [DbContext(typeof(ToDoSqlContext))]
+    [DbContext(typeof(ToDoSqlContextCreation))]
     [Migration("20200627222810_CreateToDos")]
     partial class CreateToDos
     {

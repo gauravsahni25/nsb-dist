@@ -1,2 +1,2 @@
 cd C:\Distributed\nsb-dist\NsbDistTrans\Sales
-dotnet ef database update --context ToDoSqlContext
+dotnet ef database update --context ToDoSqlContextCreation
