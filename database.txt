@@ -1,2 +1,6 @@
 cd C:\Distributed\nsb-dist\NsbDistTrans\Sales
 dotnet ef database update --context ToDoSqlContextCreation
+
+
+If you face Mongo Issues:
+https://gist.github.com/harveyconnor/518e088bad23a273cae6ba7fc4643549#gistcomment-3407982
