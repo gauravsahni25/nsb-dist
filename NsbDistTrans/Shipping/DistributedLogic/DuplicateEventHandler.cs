@@ -3,7 +3,7 @@ using Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
 
-namespace Shipping
+namespace Shipping.DistributedLogic
 {
     class DuplicateEventHandler : IHandleMessages<DuplicatesToPrevent>
     {
