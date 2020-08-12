@@ -38,7 +38,7 @@ namespace ClientUI
 
             while (true)
             {
-                log.Info("Press 'P' to place an order, 'C' to cancel last order, 'W' to see deduplication, or 'Q' to quit.");
+                log.Info("Press 'P' to place an order, 'C' to cancel last order, 'W' to see deduplication, 'B' to see Business Event Deduplication, or 'Q' to quit.");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -77,7 +77,10 @@ namespace ClientUI
 
                     case ConsoleKey.B:
                         // Send Business Event
-                        var bizEvent = new BusinessEvent();
+                        var bizEvent = new BusinessEvent()
+                        {
+                            EventId = Guid.NewGuid().ToString()
+                        };
                         await SendDuplicates(endpointInstance, bizEvent, 5);
                         break;
 
